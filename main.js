@@ -5,8 +5,9 @@ const hole = 'O';
 const fieldCharacter = '░';
 const pathCharacter = '*';
 
-
+// Field Class
 class Field {
+    // The constructor receives the 2D-Array containing the field
     constructor(arr = [[]]) {
         this.arr = arr;
         this.x_axis = 0;
@@ -14,32 +15,35 @@ class Field {
         // Initialization of the character's position
         this.arr[0][0] = pathCharacter;
     }
-    
+    // A continuous while loop simulating the game
     Run() {
         let playing = true;
         while (playing) {
             this.print();
             this.changeDirection();
+            // After prompting the player to move
+            // Check if the new move is not bounded by the field
+            // if so, indicate so to the player and break out of the game
             if (!this.Bound()) { 
                 console.log('Illegal direction');                
                 playing = false;
                 break;
-            } else if (this.ishole()) {
+            } else if (this.ishole()) { // if the new move takes the user into a hole, then they've lost: indicate so to the user and break out of the game
                 console.log('You fell down a hole! Game Over!');
                 playing = false;
                 break;
-            } else if (this.isHat()) {
+            } else if (this.isHat()) { // if the new move takes the user to finding their hat, then they've won: indicate so to the user and end the game
                 console.log(`You've found your hat! Congrats!`);
                 playing = false;
                 break;
             }
+            // Updating the current location on the map
             this.arr[this.y_axis][this.x_axis] = pathCharacter;
         }
-        // Updating the current location on the map
         
     }
 
-
+    // A method to change the direction after prompting the user for a new move
     changeDirection() {
         const direction = prompt('Which direction? ').toUpperCase();
         switch (direction) {
@@ -69,6 +73,7 @@ class Field {
         }).join('\n');
         console.log(display);
     }
+    
     isHat() {
         return this.arr[this.y_axis][this.x_axis] === hat;
     }
@@ -84,7 +89,10 @@ class Field {
             this.x_axis < this.arr[0].length
         );
     }
-
+    /*  Takes three parameters: height and width of the field
+        The third parameter : a percentage argument used to determine what percent of the field should be covered in holes.
+        returns a randomized two-dimensional array representing the field with a hat and one or more holes.
+    */
     static generateField(height, width, percentage = 0.1) {
         const field = new Array(height).fill(0).map(el => new Array(width));
         for (let y = 0; y < height; y++) {
