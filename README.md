@@ -3,3 +3,6 @@
 
 ## How to activate:
   - node main.js
+
+
+https://user-images.githubusercontent.com/75560551/122635538-37631900-d0ed-11eb-89cf-e7f2b19fbbe8.mov
